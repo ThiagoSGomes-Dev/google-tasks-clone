@@ -8,7 +8,7 @@
     android:padding="16dp"
     android:background="@drawable/bg_item">
 
-    <ImageView
+    <RadioButton
         android:id="@+id/checkbox_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,7 +16,7 @@
         android:src="@drawable/circle_dashed"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/textview_item"
