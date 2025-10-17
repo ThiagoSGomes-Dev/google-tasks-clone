@@ -1,0 +1,4 @@
+package com.app.apptodo.apptodo.apptodoinput
+
+class InputContract {
+}

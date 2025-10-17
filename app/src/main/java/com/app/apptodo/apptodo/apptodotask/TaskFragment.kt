@@ -1,4 +1,4 @@
-package com.app.apptodo.apptodo
+package com.app.apptodo.apptodo.apptodotask
 
 import android.os.Bundle
 import android.util.Log
@@ -8,11 +8,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.apptodo.AppTodoRepositoryImplementation
-import com.app.apptodo.databinding.FragmentTaskBinding
 import com.app.apptodo.R
+import com.app.apptodo.apptodo.AppTodoAdaptor
+import com.app.apptodo.apptodo.apptodoinput.InputFragment
+import com.app.apptodo.apptodo.Task
+import com.app.apptodo.databinding.FragmentTaskBinding
 
-class FragmentTask: Fragment(), AppTodoContract.View {
-    private lateinit var presenter: AppTodoContract.Presenter
+class TaskFragment: Fragment(), TaskContract.View {
+    private lateinit var presenter: TaskContract.Presenter
     private lateinit var adaptor: AppTodoAdaptor
     private var _binding: FragmentTaskBinding? = null
     private val binding get() = _binding!!
@@ -28,7 +31,8 @@ class FragmentTask: Fragment(), AppTodoContract.View {
             false
         )
 
-        return binding.root
+        val view = binding.root
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,14 +43,14 @@ class FragmentTask: Fragment(), AppTodoContract.View {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adaptor
 
-        presenter = AppTodoPresenter(this, AppTodoRepositoryImplementation())
+        presenter = TaskPresenter(this, AppTodoRepositoryImplementation())
         presenter.loadTasks()
 
         with(binding) {
             btnTask.setOnClickListener {
                 parentFragmentManager.beginTransaction().replace(
                     R.id.fragment_container,
-                    FragmentInput()
+                    InputFragment()
                 ).commit()
             }
         }

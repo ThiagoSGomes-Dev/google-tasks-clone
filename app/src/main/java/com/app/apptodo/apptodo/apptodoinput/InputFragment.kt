@@ -1,7 +1,6 @@
-package com.app.apptodo.apptodo
+package com.app.apptodo.apptodo.apptodoinput
 
 import android.os.Bundle
-import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,11 +8,14 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.app.apptodo.AppTodoRepositoryImplementation
 import com.app.apptodo.R
+import com.app.apptodo.apptodo.AppTodoAdaptor
+import com.app.apptodo.apptodo.Task
+import com.app.apptodo.apptodo.apptodotask.TaskContract
+import com.app.apptodo.apptodo.apptodotask.TaskFragment
+import com.app.apptodo.apptodo.apptodotask.TaskPresenter
 import com.app.apptodo.databinding.FragmentInputBinding
-import com.google.gson.Gson
-import java.util.Objects
 
-class FragmentInput: Fragment(), AppTodoContract.View {
+class InputFragment: Fragment(), TaskContract.View {
 
     private lateinit var adaptor : AppTodoAdaptor
     private var _binding : FragmentInputBinding? = null
@@ -36,13 +38,12 @@ class FragmentInput: Fragment(), AppTodoContract.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val presenter = AppTodoPresenter(this, AppTodoRepositoryImplementation())
+        val presenter = TaskPresenter(this, AppTodoRepositoryImplementation())
 
         adaptor = AppTodoAdaptor(requireContext(), mutableListOf())
 
         with (binding) {
             btnButton.setOnClickListener {
-                val task = Task(inputText.text.toString())
 
                 presenter.addTask(task)
 
@@ -52,7 +53,7 @@ class FragmentInput: Fragment(), AppTodoContract.View {
                 // PopBackStack
                 parentFragmentManager.beginTransaction().replace(
                     R.id.fragment_container,
-                    FragmentTask()
+                    TaskFragment()
                 ).commit()
 
             }
