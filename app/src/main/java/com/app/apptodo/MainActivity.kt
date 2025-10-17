@@ -5,8 +5,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.app.apptodo.apptodo.FragmentInput
-import com.app.apptodo.apptodo.FragmentTask
+import com.app.apptodo.apptodo.apptodoinput.InputFragment
+import com.app.apptodo.apptodo.apptodotask.TaskFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,11 +19,11 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        fun replaceFragmentTask(fragmentTask: FragmentTask) {
+        fun replaceFragmentTask(fragmentTask: TaskFragment) {
             supportFragmentManager
                 .beginTransaction().replace(
                     R.id.fragment_container,
-                    FragmentTask()
+                    TaskFragment()
                 ).addToBackStack(null).commit()
         }
 
@@ -31,12 +31,12 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager
                 .beginTransaction().replace(
                     R.id.fragment_container,
-                    FragmentInput()
+                    InputFragment()
                 ).commit()
         }
 
         if(savedInstanceState == null) {
-            replaceFragmentTask(fragmentTask = FragmentTask())
+            replaceFragmentTask(fragmentTask = TaskFragment())
         }
 
     }

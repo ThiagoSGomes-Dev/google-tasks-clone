@@ -13,22 +13,20 @@ class AppTodoAdaptor(private val context: Context, private var tasks: MutableLis
     fun updateData(newTasks: MutableList<Task>) {
         tasks = newTasks
     }
-
-    inner class AppTodoViewHold(private val listItemsBinding: ListItemsBinding) : ViewHolder(listItemsBinding.root) {
+    class AppTodoViewHold(private val listItemsBinding: ListItemsBinding) : ViewHolder(listItemsBinding.root) {
         fun bind(task: Task) {
-            listItemsBinding.textviewItem.text = task.toString()
+            listItemsBinding.textviewItem.text = task.name
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int ): AppTodoViewHold {
-        return AppTodoViewHold(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int ): AppTodoViewHold =
+        AppTodoViewHold(
             ListItemsBinding.inflate(
                 LayoutInflater.from(context),
                 parent,
                 false
             )
         )
-    }
 
     override fun getItemCount(): Int = tasks.size
 
@@ -36,5 +34,4 @@ class AppTodoAdaptor(private val context: Context, private var tasks: MutableLis
         val task = tasks[position]
         holder.bind(task)
     }
-
 }
