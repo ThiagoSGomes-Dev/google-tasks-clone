@@ -5,8 +5,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.app.apptodo.apptodo.apptodoinput.InputFragment
-import com.app.apptodo.apptodo.apptodotask.TaskFragment
+import com.app.apptodo.apptodo.addtask.TodoAddTaskFragment
+import com.app.apptodo.apptodo.list.TodoListFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,24 +19,22 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        fun replaceFragmentTask(fragmentTask: TaskFragment) {
+        fun replaceFragmentTask(fragmentTask: TodoListFragment) {
             supportFragmentManager
                 .beginTransaction().replace(
                     R.id.fragment_container,
-                    TaskFragment()
+                    TodoListFragment()
                 ).addToBackStack(null).commit()
         }
 
-        fun replaceFragmentInput() {
-            supportFragmentManager
-                .beginTransaction().replace(
-                    R.id.fragment_container,
-                    InputFragment()
-                ).commit()
-        }
+        supportFragmentManager
+            .beginTransaction().replace(
+                R.id.fragment_container,
+                TodoAddTaskFragment()
+            ).commit()
 
         if(savedInstanceState == null) {
-            replaceFragmentTask(fragmentTask = TaskFragment())
+            replaceFragmentTask(fragmentTask = TodoListFragment())
         }
 
     }

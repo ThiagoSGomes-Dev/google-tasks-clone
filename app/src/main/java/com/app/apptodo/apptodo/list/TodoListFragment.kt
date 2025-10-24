@@ -1,4 +1,4 @@
-package com.app.apptodo.apptodo.apptodotask
+package com.app.apptodo.apptodo.list
 
 import android.os.Bundle
 import android.util.Log
@@ -8,15 +8,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.apptodo.AppTodoRepositoryImplementation
-import com.app.apptodo.R
-import com.app.apptodo.apptodo.AppTodoAdaptor
-import com.app.apptodo.apptodo.apptodoinput.InputFragment
+import com.app.apptodo.apptodo.TaskAdapter
 import com.app.apptodo.apptodo.Task
 import com.app.apptodo.databinding.FragmentTaskBinding
+import com.app.apptodo.R
+import com.app.apptodo.apptodo.addtask.TodoAddTaskFragment
 
-class TaskFragment: Fragment(), TaskContract.View {
-    private lateinit var presenter: TaskContract.Presenter
-    private lateinit var adaptor: AppTodoAdaptor
+class TodoListFragment: Fragment(), TodoListContract.View {
+    private lateinit var presenter: TodoListContract.Presenter
+    private lateinit var adaptor: TaskAdapter
     private var _binding: FragmentTaskBinding? = null
     private val binding get() = _binding!!
 
@@ -38,20 +38,17 @@ class TaskFragment: Fragment(), TaskContract.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adaptor = AppTodoAdaptor(requireContext(), mutableListOf())
+        adaptor = TaskAdapter(requireContext(), mutableListOf())
         val recyclerView = binding.recyclerList
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adaptor
 
-        presenter = TaskPresenter(this, AppTodoRepositoryImplementation())
+        presenter = TodoListPresenter(this, AppTodoRepositoryImplementation())
         presenter.loadTasks()
 
         with(binding) {
             btnTask.setOnClickListener {
-                parentFragmentManager.beginTransaction().replace(
-                    R.id.fragment_container,
-                    InputFragment()
-                ).commit()
+                presenter.onAddTaskButtonClicked()
             }
         }
 
@@ -60,6 +57,13 @@ class TaskFragment: Fragment(), TaskContract.View {
     override fun returnTasks(tasks: MutableList<Task>) {
         adaptor.updateData(tasks)
         Log.i("returnTasks", "$tasks")
+    }
+
+    override fun navigateToAddTaskFragment() {
+        parentFragmentManager.beginTransaction().replace(
+            R.id.fragment_container,
+            TodoAddTaskFragment()
+        ).addToBackStack(null).commit()
     }
 
     override fun onDestroy() {

@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.app.apptodo.databinding.ListItemsBinding
 
-class AppTodoAdaptor(private val context: Context, private var tasks: MutableList<Task>): RecyclerView.Adapter<AppTodoAdaptor.AppTodoViewHold>() {
+class TaskAdapter(private val context: Context, private var tasks: MutableList<Task>): RecyclerView.Adapter<TaskAdapter.AppTodoViewHold>() {
     // TODO: Espera a classe atual, e uma Classe interna a atual, que extende o ViewHolder. VH <ClasseAtual.ClasseInterna>
 
     fun updateData(newTasks: MutableList<Task>) {

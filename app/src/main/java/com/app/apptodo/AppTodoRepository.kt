@@ -13,10 +13,10 @@ interface AppTodoRepository {
     fun removeIsCompeted(id: Long): Boolean
 }
 
-class AppTodoRepositoryImplementation: AppTodoRepository {
-    val data: MutableList<Task> = Data.list
+class AppTodoRepositoryImplementation(
+    private val data: MutableList<Task> = Data.list,
     var nextId: Long = 1
-
+): AppTodoRepository {
 
     override fun addTask(id: Long, name: String) {
         data.add(Task(nextId++, name))
@@ -34,7 +34,7 @@ class AppTodoRepositoryImplementation: AppTodoRepository {
 
     override fun isCompleted(id: Long): Boolean =
         data.find { taskId -> taskId.id == id }?.let {
-            it.isCompeted = true
+            it.isCompleted = true
             true
         } ?: false
 
@@ -42,7 +42,7 @@ class AppTodoRepositoryImplementation: AppTodoRepository {
         data.removeIf { taskId -> taskId.id == id }
 
     override fun removeIsCompeted(id: Long): Boolean =
-        data.find { taskId -> taskId.id == id && taskId.isCompeted }?.let {
+        data.find { taskId -> taskId.id == id && taskId.isCompleted }?.let {
             data.remove( it)
             true
         } ?: false

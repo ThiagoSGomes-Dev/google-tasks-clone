@@ -1,6 +1,7 @@
-package com.app.apptodo.apptodo.apptodoinput
+package com.app.apptodo.apptodo.addtask
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,16 +9,14 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.app.apptodo.AppTodoRepositoryImplementation
 import com.app.apptodo.R
-import com.app.apptodo.apptodo.AppTodoAdaptor
 import com.app.apptodo.apptodo.Task
-import com.app.apptodo.apptodo.apptodotask.TaskContract
-import com.app.apptodo.apptodo.apptodotask.TaskFragment
-import com.app.apptodo.apptodo.apptodotask.TaskPresenter
+import com.app.apptodo.apptodo.TaskAdapter
+import com.app.apptodo.apptodo.list.TodoListFragment
 import com.app.apptodo.databinding.FragmentInputBinding
 
-class InputFragment: Fragment(), TaskContract.View {
+class TodoAddTaskFragment: Fragment(), TodoAddTaskContract.View {
 
-    private lateinit var adaptor : AppTodoAdaptor
+    private lateinit var adaptor : TaskAdapter
     private var _binding : FragmentInputBinding? = null
     private val binding get() = _binding!!
 
@@ -38,24 +37,17 @@ class InputFragment: Fragment(), TaskContract.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val presenter = TaskPresenter(this, AppTodoRepositoryImplementation())
+        val presenter = TodoAddTaskPresenter(this, AppTodoRepositoryImplementation())
 
-        adaptor = AppTodoAdaptor(requireContext(), mutableListOf())
+        adaptor = TaskAdapter(requireContext(), mutableListOf())
 
         with (binding) {
             btnButton.setOnClickListener {
 
-                presenter.addTask(task)
-
+                val task = inputText.text.toString()
+                presenter.onSaveTaskClicked(1, task)
 
                 Toast.makeText(context,"Task created!", Toast.LENGTH_SHORT).show()
-
-                // PopBackStack
-                parentFragmentManager.beginTransaction().replace(
-                    R.id.fragment_container,
-                    TaskFragment()
-                ).commit()
-
             }
         }
     }
@@ -67,9 +59,7 @@ class InputFragment: Fragment(), TaskContract.View {
         _binding = null
     }
 
-    override fun returnTasks(tasks: MutableList<Task>) {
-        adaptor.updateData(tasks)
+    override fun navigateToListFragment() {
+        parentFragmentManager.popBackStack()
     }
-
-
 }

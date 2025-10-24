@@ -4,6 +4,6 @@ data class Task(
     val id: Long,
     var name: String,
     var description: String? = null,
-    var isCompeted: Boolean = false,
+    var isCompleted: Boolean = false,
     var isFavorite: Boolean = false,
 )
