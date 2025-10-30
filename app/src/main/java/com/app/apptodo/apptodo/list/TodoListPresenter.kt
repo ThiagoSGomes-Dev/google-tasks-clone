@@ -1,11 +1,18 @@
 package com.app.apptodo.apptodo.list
 
-import com.app.apptodo.AppTodoRepository
+import com.app.apptodo.data.AppTodoRepository
+import com.app.apptodo.data.Task
 
 class TodoListPresenter(
     private val view: TodoListContract.View?,
     private val repository: AppTodoRepository
 ): TodoListContract.Presenter {
+    override fun removeTaskLongClick(task: Task): Boolean {
+        repository.removeTask(task)
+        view?.showTaskRemoved(task)
+        return true
+    }
+
     override fun onAddTaskButtonClicked() {
         view?.navigateToAddTaskFragment()
     }
@@ -14,10 +21,4 @@ class TodoListPresenter(
         repository.readTask()
         view?.returnTasks(repository.readTask())
     }
-
-    override fun addTask(id: Long, task: String) {
-        repository.addTask(id, task)
-        loadTasks()
-    }
-
 }

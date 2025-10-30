@@ -7,16 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.app.apptodo.AppTodoRepositoryImplementation
-import com.app.apptodo.R
-import com.app.apptodo.apptodo.Task
-import com.app.apptodo.apptodo.TaskAdapter
-import com.app.apptodo.apptodo.list.TodoListFragment
+import com.app.apptodo.data.Task
+import com.app.apptodo.data.AppTodoRepositoryImplementation
+import com.app.apptodo.apptodo.list.TodoListAdapter
 import com.app.apptodo.databinding.FragmentInputBinding
 
 class TodoAddTaskFragment: Fragment(), TodoAddTaskContract.View {
 
-    private lateinit var adaptor : TaskAdapter
+    private val presenter: TodoAddTaskContract.Presenter by lazy {
+        TodoAddTaskPresenter(this, AppTodoRepositoryImplementation())
+    }
+    private lateinit var adapter : TodoListAdapter
     private var _binding : FragmentInputBinding? = null
     private val binding get() = _binding!!
 
@@ -37,16 +38,15 @@ class TodoAddTaskFragment: Fragment(), TodoAddTaskContract.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val presenter = TodoAddTaskPresenter(this, AppTodoRepositoryImplementation())
-
-        adaptor = TaskAdapter(requireContext(), mutableListOf())
+        adapter = TodoListAdapter()
 
         with (binding) {
             btnButton.setOnClickListener {
+                val title = inputText.text.toString()
+                val task = Task(name = title)
+                presenter.onAddTaskClicked(task)
 
-                val task = inputText.text.toString()
-                presenter.onSaveTaskClicked(1, task)
-
+                Log.d("Click", task.name)
                 Toast.makeText(context,"Task created!", Toast.LENGTH_SHORT).show()
             }
         }
@@ -61,5 +61,9 @@ class TodoAddTaskFragment: Fragment(), TodoAddTaskContract.View {
 
     override fun navigateToListFragment() {
         parentFragmentManager.popBackStack()
+    }
+
+    override fun showAddTask(task: Task) {
+        adapter.addTask(task)
     }
 }

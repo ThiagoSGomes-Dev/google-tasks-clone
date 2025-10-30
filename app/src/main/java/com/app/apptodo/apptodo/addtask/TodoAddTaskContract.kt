@@ -1,11 +1,13 @@
 package com.app.apptodo.apptodo.addtask
 
+import com.app.apptodo.data.Task
+
 interface TodoAddTaskContract {
     interface View {
         fun navigateToListFragment()
+        fun showAddTask(task: Task)
     }
-
     interface Presenter {
-        fun onSaveTaskClicked(id: Long, task: String)
+        fun onAddTaskClicked(task: Task)
     }
 }

@@ -1,22 +1,23 @@
 package com.app.apptodo.apptodo.list
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.app.apptodo.AppTodoRepositoryImplementation
-import com.app.apptodo.apptodo.TaskAdapter
-import com.app.apptodo.apptodo.Task
-import com.app.apptodo.databinding.FragmentTaskBinding
 import com.app.apptodo.R
+import com.app.apptodo.data.Task
+import com.app.apptodo.apptodo.list.TodoListAdapter
 import com.app.apptodo.apptodo.addtask.TodoAddTaskFragment
+import com.app.apptodo.data.AppTodoRepositoryImplementation
+import com.app.apptodo.databinding.FragmentTaskBinding
 
 class TodoListFragment: Fragment(), TodoListContract.View {
-    private lateinit var presenter: TodoListContract.Presenter
-    private lateinit var adaptor: TaskAdapter
+    private val presenter: TodoListPresenter by lazy {
+        TodoListPresenter(this, AppTodoRepositoryImplementation())
+    }
+    private lateinit var adapter: TodoListAdapter
     private var _binding: FragmentTaskBinding? = null
     private val binding get() = _binding!!
 
@@ -38,12 +39,19 @@ class TodoListFragment: Fragment(), TodoListContract.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adaptor = TaskAdapter(requireContext(), mutableListOf())
+        adapter = TodoListAdapter(
+            onLongClick = { task ->
+                val remove: Boolean = presenter.removeTaskLongClick(task)
+                if (remove) {
+                    adapter.removeTask(task)
+                }
+            }
+        )
+
         val recyclerView = binding.recyclerList
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = adaptor
+        recyclerView.adapter = adapter
 
-        presenter = TodoListPresenter(this, AppTodoRepositoryImplementation())
         presenter.loadTasks()
 
         with(binding) {
@@ -54,10 +62,15 @@ class TodoListFragment: Fragment(), TodoListContract.View {
 
     }
 
-    override fun returnTasks(tasks: MutableList<Task>) {
-        adaptor.updateData(tasks)
-        Log.i("returnTasks", "$tasks")
+    override fun showTaskRemoved(task: Task) {
+        adapter.removeTask(task.id)
     }
+
+    override fun returnTasks(tasks: List<Task>) {
+        adapter.setTask(tasks)
+    }
+
+
 
     override fun navigateToAddTaskFragment() {
         parentFragmentManager.beginTransaction().replace(

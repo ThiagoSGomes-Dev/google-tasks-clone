@@ -1,16 +1,17 @@
 package com.app.apptodo.apptodo.list
 
-import com.app.apptodo.apptodo.Task
+import com.app.apptodo.data.Task
 
 interface TodoListContract {
     interface View {
-        fun returnTasks(tasks: MutableList<Task>)
+        fun showTaskRemoved(task: Task)
+        fun returnTasks(tasks: List<Task>)
         fun navigateToAddTaskFragment()
     }
 
     interface Presenter {
         fun onAddTaskButtonClicked()
         fun loadTasks()
-        fun addTask(id: Long, task: String)
+        fun removeTaskLongClick(task: Task): Boolean
     }
 }

@@ -7,24 +7,20 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.app.apptodo.apptodo.addtask.TodoAddTaskFragment
 import com.app.apptodo.apptodo.list.TodoListFragment
+import com.app.apptodo.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
-        }
-
-        fun replaceFragmentTask(fragmentTask: TodoListFragment) {
-            supportFragmentManager
-                .beginTransaction().replace(
-                    R.id.fragment_container,
-                    TodoListFragment()
-                ).addToBackStack(null).commit()
         }
 
         supportFragmentManager
@@ -33,8 +29,14 @@ class MainActivity : AppCompatActivity() {
                 TodoAddTaskFragment()
             ).commit()
 
+        supportFragmentManager
+            .beginTransaction().replace(
+                R.id.fragment_container,
+                TodoListFragment()
+            ).addToBackStack(null).commit()
+
         if(savedInstanceState == null) {
-            replaceFragmentTask(fragmentTask = TodoListFragment())
+            TodoListFragment()
         }
 
     }
