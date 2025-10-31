@@ -23,21 +23,12 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        supportFragmentManager
-            .beginTransaction().replace(
-                R.id.fragment_container,
-                TodoAddTaskFragment()
-            ).commit()
-
-        supportFragmentManager
-            .beginTransaction().replace(
-                R.id.fragment_container,
-                TodoListFragment()
-            ).addToBackStack(null).commit()
-
-        if(savedInstanceState == null) {
-            TodoListFragment()
+        if (savedInstanceState == null) {
+            supportFragmentManager
+                .beginTransaction().replace(
+                    R.id.fragment_container,
+                    TodoListFragment()
+                ).addToBackStack(null).commit()
         }
-
     }
 }
