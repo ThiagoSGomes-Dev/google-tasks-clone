@@ -32,8 +32,7 @@ class TodoListFragment: Fragment(), TodoListContract.View {
             false
         )
 
-        val view = binding.root
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,16 +40,14 @@ class TodoListFragment: Fragment(), TodoListContract.View {
 
         adapter = TodoListAdapter(
             onLongClick = { task ->
-                val remove: Boolean = presenter.removeTaskLongClick(task)
-                if (remove) {
-                    adapter.removeTask(task)
-                }
+                presenter.removeTaskLongClick(task)
             }
         )
 
-        val recyclerView = binding.recyclerList
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = adapter
+        binding.recyclerList.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = adapter
+        }
 
         presenter.loadTasks()
 
@@ -59,18 +56,15 @@ class TodoListFragment: Fragment(), TodoListContract.View {
                 presenter.onAddTaskButtonClicked()
             }
         }
-
     }
 
     override fun showTaskRemoved(task: Task) {
-        adapter.removeTask(task.id)
+        adapter.removeTask(task)
     }
 
     override fun returnTasks(tasks: List<Task>) {
         adapter.setTask(tasks)
     }
-
-
 
     override fun navigateToAddTaskFragment() {
         parentFragmentManager.beginTransaction().replace(
@@ -83,6 +77,4 @@ class TodoListFragment: Fragment(), TodoListContract.View {
         super.onDestroy()
         _binding = null
     }
-
-
 }
