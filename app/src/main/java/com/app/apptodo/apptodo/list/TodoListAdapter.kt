@@ -29,12 +29,6 @@ class TodoListAdapter(private val onLongClick: (Task) -> Unit = {} ): RecyclerVi
         }
     }
 
-    fun removeTask(id: Int): Boolean {
-        task.removeIf { taskId -> taskId.id == id }
-        notifyItemRemoved(id)
-        return true
-    }
-
     inner class AppTodoViewHold(private val binding: ListItemsBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(task: Task) {
             binding.apply {
