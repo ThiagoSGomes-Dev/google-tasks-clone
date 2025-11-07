@@ -1,16 +1,13 @@
 package com.app.apptodo.data
 
-object IdGenerator {
-    private var id = 0
-    fun nextId(): Int {
-        id++
-        return id
-    }
-}
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
+@Entity(tableName = "table_task")
 data class Task(
-    val id: Int = IdGenerator.nextId(),
-    var name: String,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @ColumnInfo(name = "name") var name: String,
     val description: String? = null,
     var isCompleted: Boolean = false,
     val isFavorite: Boolean = false,

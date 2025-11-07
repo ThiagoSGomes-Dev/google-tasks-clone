@@ -4,7 +4,7 @@ import com.app.apptodo.data.Task
 
 
 interface AppTodoRepository {
-    fun addTask(name: Task)
+    suspend fun addTask(name: Task)
     fun readTask(): MutableList<Task>
     fun upDateTask(id: Int, newName: Task): Boolean
     fun isCompleted(id: Int): Boolean
@@ -15,9 +15,11 @@ interface AppTodoRepository {
 class AppTodoRepositoryImplementation(
     private val data: MutableList<Task> = Data.list,
 ): AppTodoRepository {
+    private val dataBase = AppTodoDatabase.getInstance()
 
-    override fun addTask(name: Task) {
-        data.add(name)
+    override suspend fun addTask(name: Task) {
+        val task = Task(name = name.name)
+        dataBase.taskDao().insert(task)
     }
 
     override fun readTask(): MutableList<Task> {
