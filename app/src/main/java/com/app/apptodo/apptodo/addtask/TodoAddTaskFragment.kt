@@ -46,7 +46,7 @@ class TodoAddTaskFragment: Fragment(), TodoAddTaskContract.View {
                 val task = Task(name = title)
                 presenter.onAddTaskClicked(task)
 
-                Log.d("Click", task.name)
+                Log.d("Click", "${task.id}, ${task.name}")
                 Toast.makeText(context,"Task created!", Toast.LENGTH_SHORT).show()
             }
         }
