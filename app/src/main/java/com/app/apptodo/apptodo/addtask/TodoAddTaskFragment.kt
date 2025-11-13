@@ -15,7 +15,7 @@ import com.app.apptodo.databinding.FragmentInputBinding
 class TodoAddTaskFragment: Fragment(), TodoAddTaskContract.View {
 
     private val presenter: TodoAddTaskContract.Presenter by lazy {
-        TodoAddTaskPresenter(this, AppTodoRepositoryImplementation())
+        TodoAddTaskPresenter(this, AddTaskRepositoryImplementation())
     }
     private lateinit var adapter : TodoListAdapter
     private var _binding : FragmentInputBinding? = null
@@ -54,9 +54,12 @@ class TodoAddTaskFragment: Fragment(), TodoAddTaskContract.View {
 
 
     override fun onDestroyView() {
+        presenter.onDestroy()
         super.onDestroyView()
 
         _binding = null
+
+
     }
 
     override fun navigateToListFragment() {

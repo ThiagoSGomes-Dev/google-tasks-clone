@@ -12,10 +12,11 @@ import com.app.apptodo.apptodo.list.TodoListAdapter
 import com.app.apptodo.apptodo.addtask.TodoAddTaskFragment
 import com.app.apptodo.data.AppTodoRepositoryImplementation
 import com.app.apptodo.databinding.FragmentTaskBinding
+import io.reactivex.rxjava3.core.Observable
 
 class TodoListFragment: Fragment(), TodoListContract.View {
     private val presenter: TodoListPresenter by lazy {
-        TodoListPresenter(this, AppTodoRepositoryImplementation())
+        TodoListPresenter(this, ListRepositoryImplementation())
     }
     private lateinit var adapter: TodoListAdapter
     private var _binding: FragmentTaskBinding? = null
@@ -74,6 +75,7 @@ class TodoListFragment: Fragment(), TodoListContract.View {
     }
 
     override fun onDestroy() {
+        presenter.onDestroy()
         super.onDestroy()
         _binding = null
     }

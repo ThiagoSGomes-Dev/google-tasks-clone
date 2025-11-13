@@ -9,5 +9,6 @@ interface TodoAddTaskContract {
     }
     interface Presenter {
         fun onAddTaskClicked(task: Task)
+        fun onDestroy()
     }
 }

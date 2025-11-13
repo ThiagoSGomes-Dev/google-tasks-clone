@@ -43,7 +43,12 @@ android {
 }
 
 dependencies {
+    //RxJava
+    implementation(libs.rxjava3.core)
+    implementation(libs.rxjava3.android)
+
     //Room
+    implementation(libs.room.rxjava3)
     implementation(libs.room.runtime)
     ksp(libs.room.compiler)
 
