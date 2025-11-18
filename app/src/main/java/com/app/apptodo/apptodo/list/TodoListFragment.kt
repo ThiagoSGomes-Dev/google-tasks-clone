@@ -48,7 +48,10 @@ class TodoListFragment: Fragment(), TodoListContract.View {
 
         adapter = TodoListAdapter(
             onClick = presenter::onTaskClicked,
-            onLongClick = presenter::onTaskLongClicked
+            onLongClick = presenter::onTaskLongClicked,
+            onClickIsFavorite = { isFavorite ->
+                presenter.toggleFavorite(isFavorite)
+            }
         )
 
         with(binding) {
@@ -69,6 +72,10 @@ class TodoListFragment: Fragment(), TodoListContract.View {
     }
 
     override fun showTaskUpDate(task: Task) {
+        adapter.updateTask(task)
+    }
+
+    override fun showIsFavoriteUpdate(task: Task) {
         adapter.updateTask(task)
     }
 

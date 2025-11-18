@@ -5,6 +5,7 @@ import io.reactivex.rxjava3.core.Observable
 
 interface TodoListContract {
     interface View {
+        fun showIsFavoriteUpdate(task: Task)
         fun showTaskUpDate(task: Task)
         fun showTaskRemoved(task: Task)
         fun returnTasks(tasks: List<Task>)
@@ -12,6 +13,7 @@ interface TodoListContract {
     }
 
     interface Presenter {
+        fun toggleFavorite(task: Task)
         fun loadTasks()
         fun onAddTaskButtonClicked()
         fun onTaskClicked(task: Task)

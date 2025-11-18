@@ -7,6 +7,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 
 interface AddTaskRepository {
     fun addTask(task: Task): Completable
+    fun upDateIsFavorite(task: Task): Completable
 }
 
 class AddTaskRepositoryImplementation: AddTaskRepository {
@@ -15,6 +16,10 @@ class AddTaskRepositoryImplementation: AddTaskRepository {
     override fun addTask(task: Task): Completable {
        return dataBase.taskDao().insert(task)
             .subscribeOn(Schedulers.io())
+    }
+
+    override fun upDateIsFavorite(task: Task): Completable {
+        return dataBase.taskDao().update(task)
     }
 
 }

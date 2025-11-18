@@ -11,7 +11,7 @@ class TodoAddTaskPresenter(
 ): TodoAddTaskContract.Presenter {
     private val disposable = CompositeDisposable()
 
-    override fun onAddTaskClicked( task: Task) {
+    override fun onAddTaskClicked(task: Task, isFavorite: Boolean) {
         repository.addTask(task)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

@@ -6,7 +6,7 @@ interface TodoAddTaskContract {
     interface View {
     }
     interface Presenter {
-        fun onAddTaskClicked(task: Task)
+        fun onAddTaskClicked(task: Task, isFavorite: Boolean)
         fun onDestroyView()
     }
 }

@@ -20,6 +20,14 @@ class TodoListPresenter(
             .also { disposable.add(disposable) }
     }
 
+    override fun toggleFavorite(task: Task) {
+        repository.upDateTask(task.apply { isFavorite = !isFavorite })
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { view?.showIsFavoriteUpdate(task) }
+            .also { disposable.add(disposable) }
+    }
+
     override fun onTaskClicked(task: Task) {
         repository.upDateTask(task.apply { isCompleted = !isCompleted })
             .subscribeOn(Schedulers.io())

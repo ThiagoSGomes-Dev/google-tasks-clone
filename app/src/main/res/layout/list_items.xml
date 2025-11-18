@@ -10,7 +10,7 @@
         android:id="@+id/checkbox_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableStart="@drawable/radio_check_selector"
+        android:drawableStart="@drawable/radio_check_selector_completed"
         android:clickable="false"
         android:button="@null"
         android:contentDescription="@string/bot_o_de_conclus_o_de_atividade"
@@ -23,23 +23,23 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textSize="18sp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginStart="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/checkbox_item"
+        app:layout_constraintEnd_toStartOf="@+id/iv_favorite"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Task" />
 
-    <ImageView
+    <RadioButton
         android:id="@+id/iv_favorite"
+        android:button="@null"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/icone_de_favoritos"
         android:tint="@color/colorStar"
-        android:src="@drawable/star_24px"
+        android:drawableEnd="@drawable/radio_check_selector_favorite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textview_item"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

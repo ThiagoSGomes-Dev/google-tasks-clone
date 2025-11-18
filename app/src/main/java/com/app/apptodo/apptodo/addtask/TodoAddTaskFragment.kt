@@ -1,11 +1,9 @@
 package com.app.apptodo.apptodo.addtask
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.app.apptodo.data.Task
 import com.app.apptodo.databinding.FragmentInputBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -38,10 +36,12 @@ class TodoAddTaskFragment: BottomSheetDialogFragment(), TodoAddTaskContract.View
         with (binding) {
             btnButton.setOnClickListener {
                 val title = inputText.text.toString()
-                val task = Task(name = title)
+                val isFavorite = rbIsFavoriteBottomSheet.isChecked
+                val task = Task(name = title, isFavorite = isFavorite)
                 dismiss()
-                presenter.onAddTaskClicked(task)
+                presenter.onAddTaskClicked(task, isFavorite)
             }
+
         }
     }
 

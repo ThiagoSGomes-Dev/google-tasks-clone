@@ -8,7 +8,8 @@ import com.app.apptodo.databinding.ListItemsBinding
 
 class TodoListAdapter(
     private val onLongClick: (Task) -> Unit = {},
-    private val onClick: (Task) -> Unit = {}
+    private val onClick: (Task) -> Unit = {},
+    private val onClickIsFavorite: (Task) -> Unit = {}
 ): RecyclerView.Adapter<TodoListAdapter.AppTodoViewHold>() {
 
     private val tasks = mutableListOf<Task>()
@@ -38,8 +39,13 @@ class TodoListAdapter(
             binding.apply {
                 textviewItem.text = task.name
                 checkboxItem.isChecked = task.isCompleted
+                ivFavorite.isChecked = task.isFavorite
 
-                root.setOnClickListener {
+                ivFavorite.setOnClickListener {
+                    onClickIsFavorite(task)
+                }
+
+                checkboxItem.setOnClickListener {
                     onClick(task)
                 }
                 root.setOnLongClickListener {

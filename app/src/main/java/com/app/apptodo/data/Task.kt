@@ -10,5 +10,5 @@ data class Task(
     @ColumnInfo(name = "name") var name: String,
     @ColumnInfo(name = "description") val description: String? = null,
     @ColumnInfo(name = "is_completed") var isCompleted: Boolean = false,
-    @ColumnInfo(name = "is_favorite") val isFavorite: Boolean = false,
+    @ColumnInfo(name = "is_favorite") var isFavorite: Boolean = false,
 )
