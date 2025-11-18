@@ -9,18 +9,17 @@ class TodoAddTaskPresenter(
     private val view: TodoAddTaskContract.View?,
     private val repository: AddTaskRepository
 ): TodoAddTaskContract.Presenter {
-    private val disposables = CompositeDisposable()
+    private val disposable = CompositeDisposable()
 
     override fun onAddTaskClicked( task: Task) {
-        val disposable = repository.addTask(task)
+        repository.addTask(task)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ view?.showAddTask(task) })
-        disposables.add(disposable)
-        view?.navigateToListFragment()
+            .subscribe{}
+            .also { disposable.add(disposable) }
     }
 
-    override fun onDestroy() {
-        disposables.clear()
+    override fun onDestroyView() {
+        disposable.clear()
     }
 }

@@ -15,6 +15,7 @@ room = "2.8.3"
 ksp = "2.0.21-1.0.27"
 rxjava = "3.1.5"
 rxandroid = "3.0.2"
+iconsCore = "1.6.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -32,6 +33,8 @@ room-compiler = { group = "androidx.room", name = "room-compiler", version.ref =
 room-rxjava3 = { group= "androidx.room", name = "room-rxjava3", version.ref = "room" }
 rxjava3-core = { group = "io.reactivex.rxjava3", name = "rxjava", version.ref = "rxjava" }
 rxjava3-android = { group = "io.reactivex.rxjava3", name = "rxandroid", version.ref = "rxandroid" }
+material-icons-core = { group = "androidx.compose.material", name = "material-icons-core", version.ref = "iconsCore" }
+material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "iconsCore" }
 
 
 [plugins]

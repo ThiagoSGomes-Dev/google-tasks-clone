@@ -43,6 +43,9 @@ android {
 }
 
 dependencies {
+    implementation(libs.material.icons.core)
+    implementation(libs.material.icons.extended)
+
     //RxJava
     implementation(libs.rxjava3.core)
     implementation(libs.rxjava3.android)

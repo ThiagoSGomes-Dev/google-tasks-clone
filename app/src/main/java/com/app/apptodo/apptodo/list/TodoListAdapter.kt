@@ -6,25 +6,29 @@ import androidx.recyclerview.widget.RecyclerView
 import com.app.apptodo.data.Task
 import com.app.apptodo.databinding.ListItemsBinding
 
-class TodoListAdapter(private val onLongClick: (Task) -> Unit = {} ): RecyclerView.Adapter<TodoListAdapter.AppTodoViewHold>() {
+class TodoListAdapter(
+    private val onLongClick: (Task) -> Unit = {},
+    private val onClick: (Task) -> Unit = {}
+): RecyclerView.Adapter<TodoListAdapter.AppTodoViewHold>() {
 
-    private val task = mutableListOf<Task>()
+    private val tasks = mutableListOf<Task>()
 
-    fun setTask(newTask: List<Task>) {
-        task.clear()
-        task.addAll(newTask)
-        notifyDataSetChanged()
+    fun setTasks(newTask: List<Task>) {
+        tasks.clear()
+        tasks.addAll(newTask)
+        notifyItemRangeChanged(0, newTask.size)
     }
 
-    fun addTask(newTask: Task) {
-        task.add(newTask)
-        notifyItemInserted(task.size -1)
+    fun updateTask(task: Task) {
+        val index = tasks.indexOfFirst { it.id == task.id }
+        tasks[index] = task
+        notifyItemChanged(index)
     }
 
     fun removeTask(newTask: Task) {
-        val index = task.indexOfFirst { taskId -> taskId.id == newTask.id }
+        val index = tasks.indexOfFirst { taskId -> taskId.id == newTask.id }
         if (index != -1) {
-            task.removeAt(index)
+            tasks.removeAt(index)
             notifyItemRemoved(index)
         }
     }
@@ -33,6 +37,11 @@ class TodoListAdapter(private val onLongClick: (Task) -> Unit = {} ): RecyclerVi
         fun bind(task: Task) {
             binding.apply {
                 textviewItem.text = task.name
+                checkboxItem.isChecked = task.isCompleted
+
+                root.setOnClickListener {
+                    onClick(task)
+                }
                 root.setOnLongClickListener {
                     onLongClick(task)
                     true
@@ -50,10 +59,10 @@ class TodoListAdapter(private val onLongClick: (Task) -> Unit = {} ): RecyclerVi
             )
         )
 
-    override fun getItemCount(): Int = task.size
+    override fun getItemCount(): Int = tasks.size
 
     override fun onBindViewHolder( holder: AppTodoViewHold, position: Int ) {
-        val task = task[position]
+        val task = tasks[position]
         holder.bind(task)
     }
 }

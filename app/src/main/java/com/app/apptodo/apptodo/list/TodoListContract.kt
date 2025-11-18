@@ -5,16 +5,17 @@ import io.reactivex.rxjava3.core.Observable
 
 interface TodoListContract {
     interface View {
+        fun showTaskUpDate(task: Task)
         fun showTaskRemoved(task: Task)
         fun returnTasks(tasks: List<Task>)
         fun navigateToAddTaskFragment()
     }
 
     interface Presenter {
-        fun onAddTaskButtonClicked()
         fun loadTasks()
-        fun removeTaskLongClick(task: Task): Boolean
-
-        fun onDestroy()
+        fun onAddTaskButtonClicked()
+        fun onTaskClicked(task: Task)
+        fun onTaskLongClicked(task: Task)
+        fun onDestroyView()
     }
 }

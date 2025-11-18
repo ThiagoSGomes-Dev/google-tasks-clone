@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Maybe
 import io.reactivex.rxjava3.core.Single
 
@@ -26,5 +27,5 @@ interface TaskDao {
     fun getItem(id: Int): Maybe<List<Task>>
 
     @Query("SELECT * FROM table_task")
-    fun getAll(): Single<List<Task>>
+    fun getAll(): Flowable<List<Task>>
 }

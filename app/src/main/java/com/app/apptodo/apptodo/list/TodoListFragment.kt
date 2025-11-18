@@ -6,13 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.app.apptodo.R
-import com.app.apptodo.data.Task
-import com.app.apptodo.apptodo.list.TodoListAdapter
 import com.app.apptodo.apptodo.addtask.TodoAddTaskFragment
-import com.app.apptodo.data.AppTodoRepositoryImplementation
+import com.app.apptodo.data.Task
 import com.app.apptodo.databinding.FragmentTaskBinding
-import io.reactivex.rxjava3.core.Observable
 
 class TodoListFragment: Fragment(), TodoListContract.View {
     private val presenter: TodoListPresenter by lazy {
@@ -36,23 +32,32 @@ class TodoListFragment: Fragment(), TodoListContract.View {
         return binding.root
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+        presenter.onDestroyView()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.loadTasks()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         adapter = TodoListAdapter(
-            onLongClick = { task ->
-                presenter.removeTaskLongClick(task)
-            }
+            onClick = presenter::onTaskClicked,
+            onLongClick = presenter::onTaskLongClicked
         )
 
-        binding.recyclerList.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = adapter
-        }
-
-        presenter.loadTasks()
-
         with(binding) {
+
+            recyclerList.apply {
+                layoutManager = LinearLayoutManager(context)
+                adapter = this@TodoListFragment.adapter
+            }
+
             btnTask.setOnClickListener {
                 presenter.onAddTaskButtonClicked()
             }
@@ -63,20 +68,15 @@ class TodoListFragment: Fragment(), TodoListContract.View {
         adapter.removeTask(task)
     }
 
+    override fun showTaskUpDate(task: Task) {
+        adapter.updateTask(task)
+    }
+
     override fun returnTasks(tasks: List<Task>) {
-        adapter.setTask(tasks)
+        adapter.setTasks(tasks)
     }
 
     override fun navigateToAddTaskFragment() {
-        parentFragmentManager.beginTransaction().replace(
-            R.id.fragment_container,
-            TodoAddTaskFragment()
-        ).addToBackStack(null).commit()
-    }
-
-    override fun onDestroy() {
-        presenter.onDestroy()
-        super.onDestroy()
-        _binding = null
+        TodoAddTaskFragment().show(parentFragmentManager, "add_task_sheet")
     }
 }

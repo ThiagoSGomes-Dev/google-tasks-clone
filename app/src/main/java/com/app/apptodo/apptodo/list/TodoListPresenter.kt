@@ -10,11 +10,22 @@ class TodoListPresenter(
     private val repository: ListRepository
 ): TodoListContract.Presenter {
 
-    private val disposables = CompositeDisposable()
-    override fun removeTaskLongClick(task: Task): Boolean {
+    private val disposable = CompositeDisposable()
+
+    override fun onTaskLongClicked(task: Task) {
         repository.removeTask(task)
-        view?.showTaskRemoved(task)
-        return true
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {view?.showTaskRemoved(task)}
+            .also { disposable.add(disposable) }
+    }
+
+    override fun onTaskClicked(task: Task) {
+        repository.upDateTask(task.apply { isCompleted = !isCompleted })
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { view?.showTaskUpDate(task) }
+            .also { disposable.add(disposable) }
     }
 
     override fun onAddTaskButtonClicked() {
@@ -22,14 +33,14 @@ class TodoListPresenter(
     }
 
     override fun loadTasks() {
-        val disposable = repository.readTask()
+        repository.getTasks()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({view?.returnTasks(it)})
-        disposables.add(disposable)
+            .subscribe {view?.returnTasks(it)}
+            .also { disposable.add(disposable) }
     }
 
-    override fun onDestroy() {
-        disposables.clear()
+    override fun onDestroyView() {
+        disposable.clear()
     }
 }
