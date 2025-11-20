@@ -8,4 +8,7 @@
     <string name="bot_o_para_adicionar_tarefas">botão para adicionar tarefas</string>
     <string name="plus">+</string>
     <string name="icone_de_favoritos">Icone de favoritos</string>
+    <string name="adicionar_detalhes">Adicionar detalhes</string>
+    <string name="icone_do_bot_o_de_descri_o">Icone do botão de descrição</string>
+    <string name="marcar_como_conclu_do">Marcar como concluído</string>
 </resources>

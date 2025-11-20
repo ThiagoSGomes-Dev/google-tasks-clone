@@ -1,10 +1,11 @@
 package com.app.apptodo.apptodo.list
 
 import com.app.apptodo.data.Task
-import io.reactivex.rxjava3.core.Observable
 
 interface TodoListContract {
     interface View {
+        fun bindEmptyState()
+        fun navigationToEdit(taskId: Int)
         fun showIsFavoriteUpdate(task: Task)
         fun showTaskUpDate(task: Task)
         fun showTaskRemoved(task: Task)
@@ -13,6 +14,7 @@ interface TodoListContract {
     }
 
     interface Presenter {
+        fun onClickedEditView(taskId: Int)
         fun toggleFavorite(task: Task)
         fun loadTasks()
         fun onAddTaskButtonClicked()

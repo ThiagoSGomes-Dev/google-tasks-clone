@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.app.apptodo.R
 import com.app.apptodo.apptodo.addtask.TodoAddTaskFragment
+import com.app.apptodo.apptodo.edit.TodoEditTaskFragment
 import com.app.apptodo.data.Task
 import com.app.apptodo.databinding.FragmentTaskBinding
 
@@ -51,7 +53,8 @@ class TodoListFragment: Fragment(), TodoListContract.View {
             onLongClick = presenter::onTaskLongClicked,
             onClickIsFavorite = { isFavorite ->
                 presenter.toggleFavorite(isFavorite)
-            }
+            },
+            onEditView = presenter::onClickedEditView
         )
 
         with(binding) {
@@ -73,6 +76,22 @@ class TodoListFragment: Fragment(), TodoListContract.View {
 
     override fun showTaskUpDate(task: Task) {
         adapter.updateTask(task)
+    }
+
+    override fun bindEmptyState() {
+
+    }
+
+    override fun navigationToEdit(taskId: Int) {
+        parentFragmentManager.beginTransaction().replace(
+            R.id.fragment_container,
+            TodoEditTaskFragment.newInstance(
+                taskId = taskId,
+                onTaskUpDated = { updatedTask ->
+                    adapter.updateTask(updatedTask)
+                }
+            )
+        ).addToBackStack(null).commit()
     }
 
     override fun showIsFavoriteUpdate(task: Task) {

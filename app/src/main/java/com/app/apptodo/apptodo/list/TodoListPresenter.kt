@@ -12,6 +12,10 @@ class TodoListPresenter(
 
     private val disposable = CompositeDisposable()
 
+    override fun onClickedEditView(taskId: Int) {
+            view?.navigationToEdit(taskId)
+    }
+
     override fun onTaskLongClicked(task: Task) {
         repository.removeTask(task)
             .subscribeOn(Schedulers.io())
@@ -44,7 +48,12 @@ class TodoListPresenter(
         repository.getTasks()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {view?.returnTasks(it)}
+            .subscribe { tasks -> if (tasks.isEmpty()) {
+                    view?.bindEmptyState()
+               } else {
+                    view?.returnTasks(tasks)
+                }
+            }
             .also { disposable.add(disposable) }
     }
 

@@ -3,5 +3,6 @@
     <item android:state_checked="true"
         android:drawable="@drawable/star_half_24px" />
 
-    <item android:drawable="@drawable/star_24px" />
+    <item android:state_checked="false"
+        android:drawable="@drawable/star_24px" />
 </selector>

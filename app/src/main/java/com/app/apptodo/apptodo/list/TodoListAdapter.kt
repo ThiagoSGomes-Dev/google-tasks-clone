@@ -1,15 +1,19 @@
 package com.app.apptodo.apptodo.list
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isGone
 import androidx.recyclerview.widget.RecyclerView
+import com.app.apptodo.apptodo.edit.TodoEditTaskFragment
 import com.app.apptodo.data.Task
 import com.app.apptodo.databinding.ListItemsBinding
 
 class TodoListAdapter(
     private val onLongClick: (Task) -> Unit = {},
     private val onClick: (Task) -> Unit = {},
-    private val onClickIsFavorite: (Task) -> Unit = {}
+    private val onClickIsFavorite: (Task) -> Unit = {},
+    private val onEditView: (taskId: Int) -> Unit = {}
 ): RecyclerView.Adapter<TodoListAdapter.AppTodoViewHold>() {
 
     private val tasks = mutableListOf<Task>()
@@ -38,8 +42,18 @@ class TodoListAdapter(
         fun bind(task: Task) {
             binding.apply {
                 textviewItem.text = task.name
+                if (task.description.isNullOrEmpty()) {
+                    textviewItemDescription.visibility = View.GONE
+                } else {
+                    textviewItemDescription.visibility = View.VISIBLE
+                    textviewItemDescription.text = task.description
+                }
                 checkboxItem.isChecked = task.isCompleted
                 ivFavorite.isChecked = task.isFavorite
+
+                root.setOnClickListener {
+                    onEditView(task.id)
+                }
 
                 ivFavorite.setOnClickListener {
                     onClickIsFavorite(task)

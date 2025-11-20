@@ -9,6 +9,7 @@ import androidx.room.Update
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Maybe
+import io.reactivex.rxjava3.core.Single
 
 @Dao
 interface TaskDao {
@@ -23,7 +24,7 @@ interface TaskDao {
     fun delete(task: Task): Completable
 
     @Query("SELECT * FROM table_task WHERE id = :id")
-    fun getItem(id: Int): Maybe<List<Task>>
+    fun getItemById(id: Int): Single<Task>
 
     @Query("SELECT * FROM table_task")
     fun getAll(): Flowable<List<Task>>

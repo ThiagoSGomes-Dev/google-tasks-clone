@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.app.apptodo.data.Task
 import com.app.apptodo.databinding.FragmentInputBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import androidx.core.view.isGone
 
 class TodoAddTaskFragment: BottomSheetDialogFragment(), TodoAddTaskContract.View {
 
@@ -34,12 +35,23 @@ class TodoAddTaskFragment: BottomSheetDialogFragment(), TodoAddTaskContract.View
         super.onViewCreated(view, savedInstanceState)
 
         with (binding) {
+
             btnButton.setOnClickListener {
                 val title = inputText.text.toString()
+                val description = inputTextDescription.text.toString().ifBlank { null }
                 val isFavorite = rbIsFavoriteBottomSheet.isChecked
-                val task = Task(name = title, isFavorite = isFavorite)
+
+                val task = Task(name = title, description = description, isFavorite = isFavorite)
                 dismiss()
-                presenter.onAddTaskClicked(task, isFavorite)
+                presenter.onAddTaskClicked(task, description, isFavorite)
+            }
+
+            btnDescription.setOnClickListener {
+                if (inputLayoutDescription.isGone) {
+                    inputLayoutDescription.visibility = View.VISIBLE
+                } else {
+                    inputLayoutDescription.visibility = View.GONE
+                }
             }
 
         }
