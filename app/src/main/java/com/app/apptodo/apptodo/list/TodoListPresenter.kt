@@ -48,7 +48,8 @@ class TodoListPresenter(
         repository.getTasks()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { tasks -> if (tasks.isEmpty()) {
+            .subscribe { tasks ->
+                if (tasks.isEmpty()) {
                     view?.bindEmptyState()
                } else {
                     view?.returnTasks(tasks)

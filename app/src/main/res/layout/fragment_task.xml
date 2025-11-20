@@ -55,6 +55,48 @@
             tools:itemCount="5"
             tools:listitem="@layout/list_items" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_empty_state"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/emptyImage"
+                android:layout_width="220dp"
+                android:layout_marginTop="50dp"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/imagem_da_lista_vazia"
+                android:src="@drawable/emptyimage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_empty_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nao_ha_tarefas_ainda"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/emptyImage" />
+
+            <TextView
+                android:id="@+id/tv_empty_state_h2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/adicione_tarefas"
+                android:textSize="14sp"
+                android:paddingTop="15dp"
+                android:paddingBottom="30dp"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_empty_state" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </com.google.android.material.card.MaterialCardView>
 
 

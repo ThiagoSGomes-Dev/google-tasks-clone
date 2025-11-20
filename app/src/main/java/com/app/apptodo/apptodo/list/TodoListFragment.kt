@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.apptodo.R
@@ -74,12 +75,21 @@ class TodoListFragment: Fragment(), TodoListContract.View {
         adapter.removeTask(task)
     }
 
-    override fun showTaskUpDate(task: Task) {
-        adapter.updateTask(task)
+    override fun bindEmptyState() {
+        binding.apply {
+            recyclerList.visibility = View.GONE
+            clEmptyState.visibility = View.VISIBLE
+
+            emptyImage.setImageResource(R.drawable.emptyimage)
+            tvEmptyState.text = getString(R.string.nao_ha_tarefas_ainda)
+            tvEmptyStateH2.text = getString(R.string.adicione_tarefas)
+        }
     }
 
-    override fun bindEmptyState() {
-
+    override fun showTaskUpDate(task: Task) {
+        binding.apply {
+            adapter.updateTask(task)
+        }
     }
 
     override fun navigationToEdit(taskId: Int) {
@@ -99,7 +109,12 @@ class TodoListFragment: Fragment(), TodoListContract.View {
     }
 
     override fun returnTasks(tasks: List<Task>) {
-        adapter.setTasks(tasks)
+        binding.apply {
+            clEmptyState.visibility = View.GONE
+            recyclerList.visibility = View.VISIBLE
+
+            adapter.setTasks(tasks)
+        }
     }
 
     override fun navigateToAddTaskFragment() {
