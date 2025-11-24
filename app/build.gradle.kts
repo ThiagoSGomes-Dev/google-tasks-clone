@@ -43,7 +43,15 @@ android {
 }
 
 dependencies {
+    implementation(libs.material.icons.core)
+    implementation(libs.material.icons.extended)
+
+    //RxJava
+    implementation(libs.rxjava3.core)
+    implementation(libs.rxjava3.android)
+
     //Room
+    implementation(libs.room.rxjava3)
     implementation(libs.room.runtime)
     ksp(libs.room.compiler)
 
